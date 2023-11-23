@@ -4,6 +4,7 @@ class CreateTasks < ActiveRecord::Migration[7.1]
       t.string :title
       t.text :description
       t.integer :user_id
+      t.datetime :completed_at
 
       t.timestamps
     end

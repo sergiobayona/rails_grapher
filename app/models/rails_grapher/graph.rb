@@ -1,7 +1,10 @@
 module RailsGrapher
   class Graph
     def self.all
-      project_models
+      all = {}
+      all[:project_models] = project_models
+      all
+      # project_models
       # project_controllers
       # project_views
       # project_routes
@@ -16,7 +19,6 @@ module RailsGrapher
       # project_presenters
       # project_decorators
       # project_uploaders
-      # project_validators
       # project_concerns
       # project_libs
       # project_initializers
