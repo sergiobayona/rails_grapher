@@ -24,7 +24,9 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'jbuilder'
   spec.add_dependency 'rails', '>= 7.1.2'
+  spec.add_development_dependency 'bcrypt'
   spec.add_development_dependency 'factory_bot_rails'
+  spec.add_development_dependency 'pry-rails'
   spec.add_development_dependency 'rspec-activemodel-mocks'
   spec.add_development_dependency 'rspec-json_expectations'
   spec.add_development_dependency 'rspec-rails'
