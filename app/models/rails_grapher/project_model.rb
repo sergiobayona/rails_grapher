@@ -1,7 +1,5 @@
 module RailsGrapher
   class ProjectModel
-    # cattr_reader :all_project_models # , :attributes, :associations, :validations, :scopes, :methods
-
     EXCLUDED_MODELS = %w[ ActionText::Record
                           ActiveStorage::Record
                           ActionMailbox::Record
