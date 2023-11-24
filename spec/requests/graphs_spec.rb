@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'renders all model metadata', type: :request do
   it " creates a Widget and redirects to the Widget's page" do
     get '/rails_grapher/graphs'
-
+    puts JSON.pretty_generate(JSON.parse(response.body))
     expect(response.body).to include_json(
       "project_models": {
         "Task": {
@@ -145,13 +145,65 @@ RSpec.describe 'renders all model metadata', type: :request do
           "scopes": [],
           "validations": [
             {
-              'email': %w[FormatValidator LengthValidator PresenceValidator UniquenessValidator]
+              "email": [
+                {
+                  "type": 'PresenceValidator',
+                  "options": {}
+                },
+                {
+                  "type": 'LengthValidator',
+                  "options": {
+                    "maximum": 255
+                  }
+                },
+                {
+                  "type": 'FormatValidator',
+                  "options": {
+                    "with": '(?i-mx:\\A[\\w+\\-.]+@[a-z\\d\\-.]+\\.[a-z]+\\z)'
+                  }
+                },
+                {
+                  "type": 'UniquenessValidator',
+                  "options": {
+                    "case_sensitive": false
+                  }
+                }
+              ]
             },
             {
-              'name': %w[LengthValidator PresenceValidator]
+              "name": [
+                {
+                  "type": 'PresenceValidator',
+                  "options": {}
+                },
+                {
+                  "type": 'LengthValidator',
+                  "options": {
+                    "maximum": 50
+                  }
+                }
+              ]
             },
             {
-              'password': %w[ConfirmationValidator LengthValidator PresenceValidator]
+              "password": [
+                {
+                  "type": 'ConfirmationValidator',
+                  "options": {
+                    "case_sensitive": true,
+                    "allow_blank": true
+                  }
+                },
+                {
+                  "type": 'PresenceValidator',
+                  "options": {}
+                },
+                {
+                  "type": 'LengthValidator',
+                  "options": {
+                    "minimum": 6
+                  }
+                }
+              ]
             }
           ]
         }

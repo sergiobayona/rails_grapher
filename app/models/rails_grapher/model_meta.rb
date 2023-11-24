@@ -50,9 +50,16 @@ module RailsGrapher
     private
 
     def get_validations(attribute)
-      @model.constantize.validators.select do |v|
+      validators = @model.constantize.validators.select do |v|
         v.attributes.include?(attribute)
-      end.map(&:class).map(&:to_s).map(&:demodulize).uniq.sort
+      end
+
+      validators.map do |validator|
+        {
+          'type': validator.class.to_s.demodulize,
+          'options': validator.options
+        }
+      end
     end # get_validations
   end
 end
