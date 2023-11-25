@@ -4,7 +4,6 @@ module RailsGrapher
       all = {}
       all[:project_models] = project_models
       all
-      # project_models
       # project_controllers
       # project_views
       # project_routes
