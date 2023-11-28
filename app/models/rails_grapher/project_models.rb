@@ -1,5 +1,5 @@
 module RailsGrapher
-  class ProjectModel
+  class ProjectModels
     EXCLUDED_MODELS = %w[ ActionText::Record
                           ActiveStorage::Record
                           ActionMailbox::Record
@@ -13,21 +13,30 @@ module RailsGrapher
                           ActionMailbox::InboundEmail ]
     def self.all
       Rails.application.eager_load!
-      all_ar_descendents = ActiveRecord::Base.descendants.map(&:name)
       project_models = all_ar_descendents.reject { |model| EXCLUDED_MODELS.include?(model) }
-      @all_project_models = project_models.sort
-      project_meta
+      all_project_models = project_models.sort
+
+      all_project_models.each_with_object({}) do |model, res|
+        res[model] = new(model).definition
+      end
     end
 
-    def self.project_meta
-      meta_attributes = RailsGrapher::ModelMeta.instance_methods(false).sort
-      meta = {}
-      @all_project_models.each do |model|
-        meta[model] = meta_attributes.each_with_object({}) do |attribute, _hash|
-          _hash[attribute.to_s] = RailsGrapher::ModelMeta.new(model).send(attribute)
-        end
+    def initialize(model)
+      @model = model
+    end
+
+    def model
+      @model.is_a?(String) ? @model.constantize : @model
+    end
+
+    def definition
+      RailsGrapher::ModelMeta::DEFINITIONS.each_with_object({}) do |attribute, _hash|
+        _hash[attribute.to_s] = RailsGrapher::ModelMeta.new(model).send(attribute)
       end
-      meta
+    end
+
+    def self.all_ar_descendents
+      ActiveRecord::Base.descendants.map(&:name)
     end
   end
 end

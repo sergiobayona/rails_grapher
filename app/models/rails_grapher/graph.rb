@@ -1,56 +1,26 @@
 module RailsGrapher
   class Graph
+    COMPONENTS = %w[
+      models controllers
+    ]
+    # COMPONENTS = %w[
+    #   models controllers views routes helpers mailers jobs services policies
+    #   serializers workers channels presenters decorators uploaders concerns
+    #   libs initializers configurations environments migrations seeds factories
+    #   fixtures tests tasks rake_tasks generators routes gems javascripts
+    #   stylesheets images fonts vendor public log tmp db bin app config lib
+    # ]
+
     def self.all
-      all = {}
-      all[:project_models] = project_models
-      all
-      # project_controllers
-      # project_views
-      # project_routes
-      # project_helpers
-      # project_mailers
-      # project_jobs
-      # project_services
-      # project_policies
-      # project_serializers
-      # project_workers
-      # project_channels
-      # project_presenters
-      # project_decorators
-      # project_uploaders
-      # project_concerns
-      # project_libs
-      # project_initializers
-      # project_configurations
-      # project_environments
-      # project_migrations
-      # project_seeds
-      # project_factories
-      # project_fixtures
-      # project_tests
-      # project_tasks
-      # project_rake_tasks
-      # project_generators
-      # project_rake_tasks
-      # project_routes
-      # project_gems
-      # project_javascripts
-      # project_stylesheets
-      # project_images
-      # project_fonts
-      # project_vendor
-      # project_public
-      # project_log
-      # project_tmp
-      # project_db
-      # project_bin
-      # project_app
-      # project_config
-      # project_lib
+      COMPONENTS.each_with_object({}) do |component, hash|
+        hash["project_#{component}".to_sym] = send("project_#{component}")
+      end
     end
 
-    def self.project_models
-      ProjectModel.all
+    COMPONENTS.each do |component|
+      define_singleton_method("project_#{component}") do
+        "RailsGrapher::Project#{component.capitalize}".constantize.all
+      end
     end
   end
 end

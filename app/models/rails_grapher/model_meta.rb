@@ -1,30 +1,36 @@
 module RailsGrapher
   class ModelMeta
+    DEFINITIONS = %w[attributes associations validations scopes methods]
+
     def initialize(model)
       @model = model
     end
 
+    def model
+      raise ArgumentError, 'not an AR model' unless @model.ancestors.include?(ActiveRecord::Base)
+
+      @model
+    end
+
     def attributes
-      model_column_names = @model.constantize.columns.map(&:name).sort
-      model_column_names.map do |col_name|
+      model.columns.sort_by(&:name).map do |column|
         {
-          col_name => {
-            'type': @model.constantize.columns_hash[col_name].type,
-            'limit': @model.constantize.columns_hash[col_name].limit,
-            'default': @model.constantize.columns_hash[col_name].default,
-            'null': @model.constantize.columns_hash[col_name].null
+          column.name => {
+            'type': column.type,
+            'limit': column.limit,
+            'default': column.default,
+            'null': column.null
           }
         }
       end
     end
 
     def associations
-      association_names = @model.constantize.reflect_on_all_associations.map(&:name).sort
-      association_names.map do |assoc|
+      model.reflect_on_all_associations.sort_by(&:name).map do |assoc|
         {
-          assoc => {
-            'type': @model.constantize.reflect_on_association(assoc).macro,
-            'options': @model.constantize.reflect_on_association(assoc).options
+          assoc.name => {
+            'type': assoc.macro,
+            'options': assoc.options
           }
         }
       end
@@ -32,7 +38,7 @@ module RailsGrapher
 
     # group validations by model attribute
     def validations
-      @model.constantize.validators.map(&:attributes).flatten.uniq.sort.map do |attribute|
+      model.validators.map(&:attributes).flatten.uniq.sort.map do |attribute|
         {
           attribute => get_validations(attribute)
         }
@@ -40,17 +46,17 @@ module RailsGrapher
     end
 
     def scopes
-      @model.constantize.methods(false).grep(/scope/).map(&:to_s).sort
+      model.methods(false).grep(/scope/).map(&:to_s).sort
     end
 
     def methods
-      @model.constantize.methods(false).grep_v(/scope/).map(&:to_s).sort
+      model.methods(false).grep_v(/scope/).map(&:to_s).sort
     end
 
     private
 
     def get_validations(attribute)
-      validators = @model.constantize.validators.select do |v|
+      validators = model.validators.select do |v|
         v.attributes.include?(attribute)
       end
 
