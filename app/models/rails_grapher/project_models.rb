@@ -13,10 +13,10 @@ module RailsGrapher
                           ActionMailbox::InboundEmail ]
     def self.all
       Rails.application.eager_load!
-      project_models = all_ar_descendents.reject { |model| EXCLUDED_MODELS.include?(model) }
-      all_project_models = project_models.sort
+      all_models = all_ar_descendents.reject { |model| EXCLUDED_MODELS.include?(model) }
+      project_models = all_models.sort
 
-      all_project_models.each_with_object({}) do |model, res|
+      project_models.each_with_object({}) do |model, res|
         res[model] = new(model).definition
       end
     end
