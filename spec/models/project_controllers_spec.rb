@@ -6,6 +6,7 @@ RSpec.describe 'renders all controller metadata' do
 
   it 'returns all models' do
     expect(subject.keys).to eq(%w[actions])
+    binding.pry
   end
 
   # it 'returns all attributes' do

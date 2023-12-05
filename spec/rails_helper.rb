@@ -1,6 +1,6 @@
+require 'pry-byebug'
 require 'spec_helper'
 require 'rspec/json_expectations'
-require 'pry-rails'
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('dummy/config/environment', __dir__)

@@ -1,6 +1,6 @@
-example_id                                     | status | run_time        |
----------------------------------------------- | ------ | --------------- |
-./spec/models/project_controllers_spec.rb[1:1] | passed | 0.0003 seconds  |
-./spec/models/project_models_spec.rb[1:1]      | passed | 0.00045 seconds |
-./spec/models/project_models_spec.rb[1:2]      | passed | 0.00025 seconds |
-./spec/requests/graphs_spec.rb[1:1]            | failed | 0.05468 seconds |
+example_id                                     | status | run_time               |
+---------------------------------------------- | ------ | ---------------------- |
+./spec/models/project_controllers_spec.rb[1:1] | passed | 16 minutes 10 seconds  |
+./spec/models/project_models_spec.rb[1:1]      | passed | 0.00561 seconds        |
+./spec/models/project_models_spec.rb[1:2]      | passed | 0.00017 seconds        |
+./spec/requests/graphs_spec.rb[1:1]            | failed | 4 minutes 20.3 seconds |
