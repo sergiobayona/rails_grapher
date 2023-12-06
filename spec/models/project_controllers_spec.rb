@@ -5,12 +5,7 @@ RSpec.describe 'renders all controller metadata' do
   subject { RailsGrapher::ProjectControllers.new(controller).definition }
 
   it 'returns all models' do
-    expect(subject.keys).to eq(%w[actions])
-    binding.pry
+    expect(subject).to eq({ 'actions' => { 'create' => [], 'edit' => [], 'index' => %i[html js xml], 'new' => [],
+                                           'update' => [] } })
   end
-
-  # it 'returns all attributes' do
-  #   expect(subject['attributes'].first.keys).to eq(['completed_at'])
-  #   expect(subject['attributes'].first['completed_at'].keys).to eq(%i[type limit default null])
-  # end
 end

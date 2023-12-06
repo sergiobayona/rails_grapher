@@ -20,6 +20,8 @@ module RailsGrapher
       @actions = {}
 
       source.ast.each_node { |n| process_node(n) }
+
+      @actions
     end
 
     private
@@ -43,10 +45,8 @@ module RailsGrapher
     def add_formats_to_action(node)
       node.each_node do |_n|
         Mime.symbols.each do |format|
-          if match_format_call?(_n, format)
-            @actions[_n.children[0].to_s] ||= []
-            @actions[_n.children[0].to_s] << format
-          end
+          @actions[node.children[0].to_s] ||= []
+          @actions[node.children[0].to_s] << format if match_format_call?(_n, format)
         end
       end
     end

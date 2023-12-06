@@ -1,7 +1,7 @@
 module RailsGrapher
   class Graph
     COMPONENTS = %w[
-      models controllers
+      models controllers views
     ]
     # COMPONENTS = %w[
     #   models controllers views routes helpers mailers jobs services policies
